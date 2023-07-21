@@ -3,6 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import {
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 interface Contact {
   id: number;
@@ -29,7 +36,7 @@ const EditContact: React.FC = () => {
   }, [id]);
 
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
     setContact((prevContact) => ({
@@ -57,49 +64,61 @@ const EditContact: React.FC = () => {
   }
 
   return (
-    <div>
-      <h2>Edit Contact</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={contact.name}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={contact.email}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Phone:</label>
-          <input
-            type="text"
-            name="phone"
-            value={contact.phone}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Address:</label>
-          <textarea
-            name="address"
-            value={contact.address}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button type="submit">Update Contact</button>
-        <br />
-        <Link to={`/contacts/${id}`}>Back to Contact Details</Link>
-      </form>
-    </div>
+    <Card variant="outlined" style={{ margin: "20px auto", maxWidth: "400px" }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          Edit Contact
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: "10px" }}>
+            <TextField
+              label="Name"
+              name="name"
+              value={contact.name}
+              onChange={handleInputChange}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <TextField
+              label="Email"
+              name="email"
+              value={contact.email}
+              onChange={handleInputChange}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <TextField
+              label="Phone"
+              name="phone"
+              value={contact.phone}
+              onChange={handleInputChange}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <TextField
+              label="Address"
+              name="address"
+              value={contact.address}
+              onChange={handleInputChange}
+              multiline
+              fullWidth
+            />
+          </div>
+          <Button
+            type="submit"
+            variant="outlined"
+            style={{ marginTop: "10px" }}
+          >
+            Update Contact
+          </Button>
+          <br />
+          <Link to={`/contacts/${id}`}>Back to Contact Details</Link>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 

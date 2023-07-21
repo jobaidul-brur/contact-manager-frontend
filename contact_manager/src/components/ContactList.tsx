@@ -3,6 +3,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {
+  Button,
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  Typography,
+} from "@mui/material";
 
 interface Contact {
   id: number;
@@ -25,19 +33,29 @@ const ContactList: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Contact List</h2>
-      <ul>
-        {contacts.map((contact) => (
-          <li key={contact.id}>
-            <Link to={`/contacts/${contact.id}`}>
-              {contact.name} - {contact.phone}
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <Link to="/add">Add Contact</Link> {/* Link to the AddContact page */}
-    </div>
+    <Card variant="outlined" style={{ margin: "20px auto", maxWidth: "400px" }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          Contact List
+        </Typography>
+        <List>
+          {contacts.map((contact) => (
+            <ListItem key={contact.id}>
+              <Link to={`/contacts/${contact.id}`}>
+                <Typography variant="body1">
+                  {contact.name} - {contact.phone}
+                </Typography>
+              </Link>
+            </ListItem>
+          ))}
+        </List>
+        <Link to="/add">
+          <Button variant="outlined" style={{ marginTop: "10px" }}>
+            Add Contact
+          </Button>
+        </Link>
+      </CardContent>
+    </Card>
   );
 };
 

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { Button, Card, CardContent, Typography } from "@mui/material";
 
 interface Contact {
   id: number;
@@ -45,17 +46,32 @@ const ContactDetails: React.FC = () => {
   }
 
   return (
-    <div>
-      <h2>Contact Details</h2>
-      <p>Name: {contact.name}</p>
-      <p>Email: {contact.email}</p>
-      <p>Phone: {contact.phone}</p>
-      <p>Address: {contact.address}</p>
-      <Link to={`/contacts/${id}/edit`}>Edit</Link>
-      <button onClick={handleDelete}>Delete</button>
-      <br />
-      <Link to="/">Back to Contact List</Link>
-    </div>
+    <Card variant="outlined" style={{ margin: "20px auto", maxWidth: "400px" }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          Contact Details
+        </Typography>
+        <Typography variant="body1">Name: {contact.name}</Typography>
+        <Typography variant="body1">Email: {contact.email}</Typography>
+        <Typography variant="body1">Phone: {contact.phone}</Typography>
+        <Typography variant="body1">Address: {contact.address}</Typography>
+        <Link to={`/contacts/${id}/edit`}>
+          <Button variant="outlined" style={{ marginTop: "10px" }}>
+            Edit
+          </Button>
+        </Link>
+        <Button
+          variant="outlined"
+          color="error"
+          style={{ marginTop: "10px" }}
+          onClick={handleDelete}
+        >
+          Delete
+        </Button>
+        <br />
+        <Link to="/">Back to Contact List</Link>
+      </CardContent>
+    </Card>
   );
 };
 

@@ -11,7 +11,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div>
-        <h1>Contact Management App</h1>
+        <h1 style={{ textAlign: "center" }}>Contact Management App</h1>
         <Routes>
           <Route path="/" element={<ContactList />} />
           <Route path="/contacts/:id" element={<ContactDetails />} />
