@@ -12,11 +12,11 @@ import {
 } from "@mui/material";
 import useContacts from "../hooks/useContacts";
 
-interface Contact {
-  id: number;
-  name: string;
-  phone: string;
-}
+// interface Contact {
+//   id: number;
+//   name: string;
+//   phone: string;
+// }
 
 const ContactList: React.FC = () => {
   const contacts = useContacts();

@@ -1,7 +1,7 @@
 // src/pages/EditContact.tsx
 
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -22,7 +22,6 @@ interface Contact {
 
 const EditContact: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const contact = useContactDetails(id);
   const [updatedContact, setUpdatedContact] = useState<Contact | null>(null);
 
