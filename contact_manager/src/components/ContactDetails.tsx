@@ -1,44 +1,21 @@
 // src/components/ContactDetails.tsx
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
 import { Button, Card, CardContent, Typography } from "@mui/material";
-
-interface Contact {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-}
+import useContactDetails from "../hooks/useContactDetails";
+import useDeleteContact from "../hooks/useDeleteContact";
 
 const ContactDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [contact, setContact] = useState<Contact | null>(null);
+  const contact = useContactDetails(id);
 
-  useEffect(() => {
-    axios
-      .get<Contact>(`http://localhost:8000/api/contacts/${id}`)
-      .then((response) => {
-        setContact(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching contact details:", error);
-      });
-  }, [id]);
+  const { deleteContact } = useDeleteContact();
 
   const handleDelete = () => {
-    axios
-      .delete(`http://localhost:8000/api/contacts/${id}`)
-      .then((response) => {
-        // Handle success
-        // For example, redirect to contact list after successful deletion
-        // history.push('/');
-      })
-      .catch((error) => {
-        console.error("Error deleting contact:", error);
-      });
+    if (id) {
+      deleteContact(id);
+    }
   };
 
   if (!contact) {
@@ -56,7 +33,10 @@ const ContactDetails: React.FC = () => {
         <Typography variant="body1">Phone: {contact.phone}</Typography>
         <Typography variant="body1">Address: {contact.address}</Typography>
         <Link to={`/contacts/${id}/edit`}>
-          <Button variant="outlined" style={{ marginTop: "10px" }}>
+          <Button
+            variant="outlined"
+            style={{ marginTop: "10px", marginRight: "5px" }}
+          >
             Edit
           </Button>
         </Link>
@@ -68,8 +48,6 @@ const ContactDetails: React.FC = () => {
         >
           Delete
         </Button>
-        <br />
-        <Link to="/">Back to Contact List</Link>
       </CardContent>
     </Card>
   );

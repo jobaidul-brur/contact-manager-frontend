@@ -1,8 +1,7 @@
 // src/components/ContactList.tsx
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import {
   Button,
   Card,
@@ -11,6 +10,7 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
+import useContacts from "../hooks/useContacts";
 
 interface Contact {
   id: number;
@@ -19,18 +19,7 @@ interface Contact {
 }
 
 const ContactList: React.FC = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-
-  useEffect(() => {
-    axios
-      .get<Contact[]>("http://localhost:8000/api/contacts/")
-      .then((response) => {
-        setContacts(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching contacts:", error);
-      });
-  }, []);
+  const contacts = useContacts();
 
   return (
     <Card variant="outlined" style={{ margin: "20px auto", maxWidth: "400px" }}>

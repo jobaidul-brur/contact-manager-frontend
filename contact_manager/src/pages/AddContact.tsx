@@ -1,8 +1,7 @@
 // src/pages/AddContact.tsx
 
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   Button,
   Card,
@@ -10,9 +9,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import useCreateContact from "../hooks/useCreateContact";
 
 const AddContact: React.FC = () => {
-  const navigate = useNavigate();
   const [contact, setContact] = useState({
     name: "",
     email: "",
@@ -30,25 +29,17 @@ const AddContact: React.FC = () => {
     }));
   };
 
+  const { createContact, error } = useCreateContact();
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    axios
-      .post("http://localhost:8000/api/contacts/", contact)
-      .then((response) => {
-        // Handle success
-        // For example, navigate to contact details after successful creation
-        // navigate(`/contacts/${response.data.id}`);
-        // Clear the form after successful creation
-        setContact({
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
-        });
-      })
-      .catch((error) => {
-        console.error("Error creating contact:", error);
-      });
+    createContact(contact);
+    setContact({
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+    });
   };
 
   return (
@@ -103,7 +94,7 @@ const AddContact: React.FC = () => {
             Add Contact
           </Button>
         </form>
-        <Link to="/">Back to Contact List</Link>
+        {error && <div style={{ color: "red" }}>{error}</div>}
       </CardContent>
     </Card>
   );

@@ -1,8 +1,7 @@
 // src/pages/EditContact.tsx
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import {
   Button,
   Card,
@@ -10,6 +9,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import useContactDetails from "../hooks/useContactDetails";
+import useUpdateContact from "../hooks/useUpdateContact";
 
 interface Contact {
   id: number;
@@ -22,41 +23,32 @@ interface Contact {
 const EditContact: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [contact, setContact] = useState<Contact | null>(null);
+  const contact = useContactDetails(id);
+  const [updatedContact, setUpdatedContact] = useState<Contact | null>(null);
 
   useEffect(() => {
-    axios
-      .get<Contact>(`http://localhost:8000/api/contacts/${id}`)
-      .then((response) => {
-        setContact(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching contact details:", error);
-      });
-  }, [id]);
+    if (contact) {
+      setUpdatedContact(contact);
+    }
+  }, [contact]);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
-    setContact((prevContact) => ({
+    setUpdatedContact((prevContact) => ({
       ...prevContact!,
       [name]: value,
     }));
   };
 
+  const { updateContact, error } = useUpdateContact();
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    axios
-      .put(`http://localhost:8000/api/contacts/${id}`, contact)
-      .then((response) => {
-        // Handle success
-        // For example, navigate to contact details after successful update
-        navigate(`/contacts/${id}`);
-      })
-      .catch((error) => {
-        console.error("Error updating contact:", error);
-      });
+    if (updatedContact) {
+      updateContact(id, updatedContact);
+    }
   };
 
   if (!contact) {
@@ -74,7 +66,7 @@ const EditContact: React.FC = () => {
             <TextField
               label="Name"
               name="name"
-              value={contact.name}
+              value={updatedContact?.name || contact.name}
               onChange={handleInputChange}
               fullWidth
             />
@@ -83,7 +75,7 @@ const EditContact: React.FC = () => {
             <TextField
               label="Email"
               name="email"
-              value={contact.email}
+              value={updatedContact?.email || contact.email}
               onChange={handleInputChange}
               fullWidth
             />
@@ -92,7 +84,7 @@ const EditContact: React.FC = () => {
             <TextField
               label="Phone"
               name="phone"
-              value={contact.phone}
+              value={updatedContact?.phone || contact.phone}
               onChange={handleInputChange}
               fullWidth
             />
@@ -101,7 +93,7 @@ const EditContact: React.FC = () => {
             <TextField
               label="Address"
               name="address"
-              value={contact.address}
+              value={updatedContact?.address || contact.address}
               onChange={handleInputChange}
               multiline
               fullWidth
@@ -115,7 +107,7 @@ const EditContact: React.FC = () => {
             Update Contact
           </Button>
           <br />
-          <Link to={`/contacts/${id}`}>Back to Contact Details</Link>
+          {error && <div style={{ color: "red" }}>{error}</div>}
         </form>
       </CardContent>
     </Card>
