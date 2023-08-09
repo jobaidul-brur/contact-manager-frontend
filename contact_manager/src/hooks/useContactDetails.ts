@@ -16,7 +16,7 @@ const useContactDetails = (id?: string) => {
 
   useEffect(() => {
     axios
-      .get<Contact>(`http://localhost:8000/api/contacts/${id}`)
+      .get<Contact>(`https://localhost:8000/api/contacts/${id}`)
       .then((response) => {
         setContact(response.data);
       })

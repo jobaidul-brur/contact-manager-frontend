@@ -10,7 +10,7 @@ const useDeleteContact = () => {
 
   const deleteContact = (id: string) => {
     axios
-      .delete(`http://localhost:8000/api/contacts/${id}`)
+      .delete(`https://localhost:8000/api/contacts/${id}`)
       .then(() => {
         // Handle success
         // For example, redirect to contact list after successful deletion

@@ -16,7 +16,7 @@ const useContacts = () => {
 
   useEffect(() => {
     axios
-      .get<Contact[]>("http://localhost:8000/api/contacts/")
+      .get<Contact[]>("https://localhost:8000/api/contacts/")
       .then((response) => {
         setContacts(response.data);
       })

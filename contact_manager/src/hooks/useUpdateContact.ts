@@ -17,7 +17,7 @@ const useUpdateContact = () => {
 
   const updateContact = (id?: string, contact?: Contact) => {
     axios
-      .put(`http://localhost:8000/api/contacts/${id}`, contact)
+      .put(`https://localhost:8000/api/contacts/${id}`, contact)
       .then(() => {
         // Handle success
         // For example, navigate to contact details after successful update

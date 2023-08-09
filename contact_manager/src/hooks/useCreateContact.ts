@@ -17,7 +17,7 @@ const useCreateContact = () => {
 
   const createContact = (contact: Contact) => {
     axios
-      .post("http://localhost:8000/api/contacts/", contact)
+      .post("https://localhost:8000/api/contacts/", contact)
       .then((response) => {
         // Handle success
         // For example, navigate to contact details after successful creation
